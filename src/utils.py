@@ -28,7 +28,7 @@ def get_quantity_to_send():
 
 def get_message_to_send():
 
-    file_path = "./bot_whatsapp/src/message.txt"
+    file_path = "./src/message.txt"
 
     with open(file_path, "r", encoding="utf-8") as file:
         content = file.read()
@@ -69,7 +69,7 @@ def get_message_to_send():
 
 
 def save_message_sent(message):
-    file_path = "./bot_whatsapp/src/message.txt"
+    file_path = "./src/message.txt"
 
     with open(file_path, "w", encoding="utf-8") as file:
         file.write(message)
