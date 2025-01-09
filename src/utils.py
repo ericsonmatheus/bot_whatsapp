@@ -25,16 +25,51 @@ def get_quantity_to_send():
             messagebox.showinfo("AVISO!", "Você digitou um número inválido! Tente novamente.")
             window.destroy()
 
+
 def get_message_to_send():
-    message_to_send = """
-        Olá *Prezado militar*, tudo bem?
 
-        📍Espero que esteja bem. Sou Valquíria Faria Representante do banco SABEMI, especialista em Empréstimo consignado.
+    file_path = "./bot_whatsapp/src/message.txt"
 
-        📍Estamos oferecendo condições especiais em empréstimos consignados para militares  do Exército e Pensionistas,estamos com taxas de juros reduzidas para refin e compra de dívida de todos os bancos.
+    with open(file_path, "r", encoding="utf-8") as file:
+        content = file.read()
 
-        📍Estou à disposição para realizar uma simulação personalizada e sem compromisso. Aguardo seu retorno para discutirmos como podemos beneficiar suas condições financeiras, caso queira agendar um horário posso passar maiores informações, trabalhamos com vários bancos!
+    default_message = content
 
-        Atenciosamente *Valquiria Faria*
-    """
+    def on_confirm():
+        nonlocal message_to_send
+        message_to_send = text_widget.get("1.0", "end-1c")
+        window.destroy()
+
+    def on_cancel():
+        message_to_send[0] = None
+        window.destroy()
+
+    window = tk.Tk()
+    window.title("Editar Mensagem")
+    window.geometry("720x720")
+
+    text_widget = tk.Text(window, wrap="word", font=("Arial", 12))
+    text_widget.pack(expand=True, fill="both", padx=10, pady=10)
+    text_widget.insert("1.0", default_message)
+
+    button_frame = tk.Frame(window)
+    button_frame.pack(fill="x", pady=5)
+
+    confirm_button = tk.Button(button_frame, text="Confirmar", command=on_confirm)
+    confirm_button.pack(side="left", padx=10)
+
+    cancel_button = tk.Button(button_frame, text="Cancelar", command=on_cancel)
+    cancel_button.pack(side="right", padx=10)
+
+    message_to_send = None
+
+    window.mainloop()
+
     return message_to_send
+
+
+def save_message_sent(message):
+    file_path = "./bot_whatsapp/src/message.txt"
+
+    with open(file_path, "w", encoding="utf-8") as file:
+        file.write(message)
