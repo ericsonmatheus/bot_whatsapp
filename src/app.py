@@ -9,7 +9,11 @@ import webbrowser
 from datetime import datetime, timedelta
 from time import sleep
 
-from utils import get_quantity_to_send, get_message_to_send
+from utils import (
+    get_message_to_send,
+    get_quantity_to_send,
+    save_message_sent,
+)
 
 quantity_to_send = get_quantity_to_send()
 
@@ -17,7 +21,7 @@ message_to_send = get_message_to_send()
 
 # Open the browser and access WhatsApp Web until it loads for the first time
 webbrowser.open('https://web.whatsapp.com/')
-sleep(10)
+sleep(30)
 
 # Read the spreadsheet and store information about name and phone number
 customers = pd.read_excel("./Clientes_Whatsapp/clientes.xlsx")
@@ -39,8 +43,6 @@ for i, row in enumerate(customers_page.iter_rows(min_row=2), start=0):
     phone = row[0].value
     phone_number = str(f"+55{phone}")
     message = message_to_send
-    # Criar links personalizados do whatsapp e enviar mensagens para cada cliente
-    # com base nos dados da planilha
     try:
         timezone = pytz.timezone("America/Sao_Paulo")
         now = datetime.now(timezone)
@@ -63,3 +65,5 @@ for i, row in enumerate(customers_page.iter_rows(min_row=2), start=0):
 
 sent_customers.to_excel(f"./Clientes_Whatsapp/Mensagens_Enviadas/clientes_enviados_{current_date}.xlsx", index=False)
 customers.to_excel("./Clientes_Whatsapp/clientes.xlsx", index=False)
+
+save_message_sent(message_to_send)
