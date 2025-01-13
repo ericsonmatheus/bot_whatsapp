@@ -41,12 +41,13 @@ def get_message_to_send():
         window.destroy()
 
     def on_cancel():
-        message_to_send[0] = None
+        nonlocal message_to_send
+        message_to_send = None
         window.destroy()
 
     window = tk.Tk()
     window.title("Editar Mensagem")
-    window.geometry("720x720")
+    window.geometry("720x540")
 
     text_widget = tk.Text(window, wrap="word", font=("Arial", 12))
     text_widget.pack(expand=True, fill="both", padx=10, pady=10)
