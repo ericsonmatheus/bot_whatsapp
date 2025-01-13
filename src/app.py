@@ -19,6 +19,10 @@ quantity_to_send = get_quantity_to_send()
 
 message_to_send = get_message_to_send()
 
+if message_to_send is None:
+    print("Operação cancelada pelo usuário.")
+    exit()
+
 # Open the browser and access WhatsApp Web until it loads for the first time
 webbrowser.open('https://web.whatsapp.com/')
 sleep(30)
@@ -43,25 +47,21 @@ for i, row in enumerate(customers_page.iter_rows(min_row=2), start=0):
     phone = row[0].value
     phone_number = str(f"+55{phone}")
     message = message_to_send
-    try:
-        timezone = pytz.timezone("America/Sao_Paulo")
-        now = datetime.now(timezone)
-        send_time = now + timedelta(minutes=1)
-        hour, minute = send_time.hour, send_time.minute
-        wait_time = 10
 
-        kit.sendwhatmsg(phone_number, message, hour, minute, wait_time)
-        sleep(2)
-        pyautogui.hotkey('ctrl','w')
-        sleep(2)
-        row = customers.iloc[[i]]
-        sent_customers = pd.concat([sent_customers, row], ignore_index=True)
-        customers = customers.drop(i)
-    except Exception as e:
-        print(e)
-        print(f'Não foi possível enviar mensagem para o número {phone} - index: {i}')
-        with open('erros.csv','a',newline='',encoding='utf-8') as file:
-            file.write(f'{phone}{os.linesep}')
+    timezone = pytz.timezone("America/Sao_Paulo")
+    now = datetime.now(timezone)
+    send_time = now + timedelta(minutes=1)
+    hour, minute = send_time.hour, send_time.minute
+    wait_time = 10
+
+    kit.sendwhatmsg(phone_number, message, hour, minute, wait_time)
+    sleep(5)
+    pyautogui.hotkey('ctrl','w')
+    sleep(2)
+    row = customers.iloc[[0]]
+    sent_customers = pd.concat([sent_customers, row], ignore_index=True)
+    customers = customers.drop(i)
+    
 
 sent_customers.to_excel(f"./Clientes_Whatsapp/Mensagens_Enviadas/clientes_enviados_{current_date}.xlsx", index=False)
 customers.to_excel("./Clientes_Whatsapp/clientes.xlsx", index=False)
