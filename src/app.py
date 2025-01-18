@@ -50,12 +50,12 @@ for i, row in enumerate(customers_page.iter_rows(min_row=2), start=0):
 
     timezone = pytz.timezone("America/Sao_Paulo")
     now = datetime.now(timezone)
-    send_time = now + timedelta(minutes=1)
+    send_time = now + timedelta(seconds=90)
     hour, minute = send_time.hour, send_time.minute
-    wait_time = 10
+    wait_time = 20
 
     kit.sendwhatmsg(phone_number, message, hour, minute, wait_time)
-    sleep(5)
+    sleep(10)
     pyautogui.hotkey('ctrl','w')
     sleep(2)
     row = customers.iloc[[0]]
