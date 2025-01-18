@@ -28,7 +28,7 @@ def get_quantity_to_send():
 
 def get_message_to_send():
 
-    file_path = "./src/message.txt"
+    file_path = "./APP_Enviar_mensagem/bot_whatsapp/src/message.txt"
 
     with open(file_path, "r", encoding="utf-8") as file:
         content = file.read()
@@ -47,7 +47,7 @@ def get_message_to_send():
 
     window = tk.Tk()
     window.title("Editar Mensagem")
-    window.geometry("720x540")
+    window.geometry("860x800")
 
     text_widget = tk.Text(window, wrap="word", font=("Arial", 12))
     text_widget.pack(expand=True, fill="both", padx=10, pady=10)
@@ -70,7 +70,7 @@ def get_message_to_send():
 
 
 def save_message_sent(message):
-    file_path = "./src/message.txt"
+    file_path = "./APP_Enviar_mensagem/bot_whatsapp/src/message.txt"
 
     with open(file_path, "w", encoding="utf-8") as file:
         file.write(message)
