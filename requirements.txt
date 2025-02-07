@@ -1,5 +1,5 @@
 openpyxl==3.1.5
 pyautogui==0.9.54
-PySimpleGUI==5.0.6
-pandas==2.2.2
-pywhatkit==5.4
+PySimpleGUI==5.0.8
+pandas==2.2.3
+pre_commit==4.1.0
