@@ -1,5 +1,9 @@
 import tkinter as tk
-from tkinter import simpledialog, messagebox
+from pathlib import Path
+from tkinter import messagebox, simpledialog
+
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+
 
 def get_quantity_to_send():
     while True:
@@ -28,7 +32,7 @@ def get_quantity_to_send():
 
 def get_message_to_send():
 
-    file_path = "./APP_Enviar_mensagem/bot_whatsapp/src/message.txt"
+    file_path = f"{PROJECT_ROOT}/src/message.txt"
 
     with open(file_path, "r", encoding="utf-8") as file:
         content = file.read()
@@ -66,11 +70,26 @@ def get_message_to_send():
 
     window.mainloop()
 
+    if message_to_send is None:
+        print("Operação cancelada pelo usuário.")
+        exit()
+
     return message_to_send
 
 
+def show_errors(error):
+    window = tk.Tk()
+    window.withdraw()
+    messagebox.showinfo(
+        "Erro durante a execução!",
+        "Entre em contato com o suporte: \n\n" + "Motivo do erro: " + error,
+    )
+    window.destroy()
+    exit()
+
+
 def save_message_sent(message):
-    file_path = "./APP_Enviar_mensagem/bot_whatsapp/src/message.txt"
+    file_path = f"{PROJECT_ROOT}/src/message.txt"
 
     with open(file_path, "w", encoding="utf-8") as file:
         file.write(message)
