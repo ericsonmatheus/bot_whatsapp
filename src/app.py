@@ -69,4 +69,5 @@ for i, row in enumerate(customers_page.iter_rows(min_row=2), start=0):
     except Exception as e:
         show_errors(e.__doc__[:100] + "...")
 
+pyautogui.hotkey("alt", "f4")
 save_message_sent(message_to_send)
