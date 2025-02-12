@@ -77,15 +77,14 @@ def get_message_to_send():
     return message_to_send
 
 
-def show_errors(error):
-    window = tk.Tk()
-    window.withdraw()
-    messagebox.showinfo(
-        "Erro durante a execução!",
-        "Entre em contato com o suporte: \n\n" + "Motivo do erro: " + error,
-    )
-    window.destroy()
-    exit()
+# def show_errors(error):
+#     window = tk.Tk()
+#     window.withdraw()
+#     messagebox.showinfo(
+#         "Erro durante a execução!",
+#         "Envie o print/foto do erro para o suporte em seguida pode prosseguir: \n\n" + "Motivo do erro: " + error,
+#     )
+#     window.destroy()
 
 
 def save_message_sent(message):
