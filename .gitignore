@@ -3,3 +3,4 @@
 *.csv
 *.xlsx
 /src/message.txt
+/src/errors.txt
