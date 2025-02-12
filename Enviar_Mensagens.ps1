@@ -1,2 +1,3 @@
-pip install -r APP_Enviar_mensagem\bot_whatsapp\requirements.txt
-python APP_Enviar_mensagem\bot_whatsapp\src\app.py
+git pull origin main
+pip install -r requirements.txt
+python src\app.py
