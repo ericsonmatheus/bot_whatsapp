@@ -21,8 +21,11 @@ message_to_send = get_message_to_send()
 webbrowser.open("https://web.whatsapp.com/")
 sleep(30)
 
-# Read the spreadsheet and store information about name and phone number
+# Read the spreadsheet and remove duplicates numbers
 customers = pd.read_excel(f"{PROJECT_ROOT}/Clientes_Whatsapp/clientes.xlsx")
+customers = customers.drop_duplicates()
+customers.to_excel(f"{PROJECT_ROOT}/Clientes_Whatsapp/clientes.xlsx", index=False)
+
 workbook = openpyxl.load_workbook(f"{PROJECT_ROOT}/Clientes_Whatsapp/clientes.xlsx")
 customers_page = workbook["Sheet1"]
 
@@ -49,8 +52,21 @@ for i, row in enumerate(customers_page.iter_rows(min_row=2), start=0):
         )
         webbrowser.open(link_mensagem_whatsapp)
         sleep(60)
-        pyautogui.press("esc")
-        seta = pyautogui.locateCenterOnScreen(f"{PROJECT_ROOT}/src/images/seta.png")
+        trieds = 2
+        error = None
+        seta = None
+        for j in range(trieds):
+            try:
+                seta = pyautogui.locateCenterOnScreen(f"{PROJECT_ROOT}/src/images/seta.png")
+                if seta:
+                    break
+            except ImageNotFoundException as e:
+                sleep(5)
+                error = e
+                pyautogui.press("esc")
+
+        if seta is None:
+            raise ImageNotFoundException
         sleep(5)
         pyautogui.click(seta[0], seta[1])
         sleep(5)
@@ -70,21 +86,25 @@ for i, row in enumerate(customers_page.iter_rows(min_row=2), start=0):
         with open(file_path, "r", encoding="utf-8") as file:
             content = file.read()
 
-        message_error = (
-            "- Novo erro: O Navegador estava inacessível quanto tentamos enviar uma mensagem"
-        )
+        message_error = f"- Novo erro: O Navegador estava inacessível quando tentamos enviar uma mensagem para: {phone_number}"
         content = f"{content}; {message_error}"
         with open(file_path, "w", encoding="utf-8") as file:
             file.write(message_error)
+        customers = customers.drop(i)
+        pyautogui.hotkey("ctrl", "w")
+        sleep(2)
     except Exception as e:
         file_path = f"{PROJECT_ROOT}/src/errors.txt"
         with open(file_path, "r", encoding="utf-8") as file:
             content = file.read()
 
-        message_error = f"- {e.__doc__[:100]} ...; "
+        message_error = f"- {e.__doc__[:100]} ...: Telefone: {phone_number}; "
         content = f"{content}; {message_error}"
         with open(file_path, "w", encoding="utf-8") as file:
             file.write(message_error)
+        customers = customers.drop(i)
+        pyautogui.hotkey("ctrl", "w")
+        sleep(2)
 
 pyautogui.hotkey("alt", "f4")
 save_message_sent(message_to_send)
