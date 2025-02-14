@@ -4,3 +4,4 @@
 *.xlsx
 /src/message.txt
 /src/errors.txt
+/.vscode/launch.json
