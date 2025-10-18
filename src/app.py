@@ -57,7 +57,9 @@ for i, row in enumerate(customers_page.iter_rows(min_row=2), start=0):
         seta = None
         for j in range(trieds):
             try:
-                seta = pyautogui.locateCenterOnScreen(f"{PROJECT_ROOT}/src/images/seta.png")
+                seta = pyautogui.locateCenterOnScreen(
+                    f"{PROJECT_ROOT}/src/images/seta.png", confidence=0.8
+                )
                 if seta:
                     break
             except ImageNotFoundException as e:
@@ -86,7 +88,8 @@ for i, row in enumerate(customers_page.iter_rows(min_row=2), start=0):
         with open(file_path, "r", encoding="utf-8") as file:
             content = file.read()
 
-        message_error = f"- Novo erro: O Navegador estava inacessível quando tentamos enviar uma mensagem para: {phone_number}"
+        message_error = f"""- Novo erro: O Navegador estava inacessível quando tentamos
+        enviar uma mensagem para: {phone_number}"""
         content = f"{content}; {message_error}"
         with open(file_path, "w", encoding="utf-8") as file:
             file.write(message_error)
