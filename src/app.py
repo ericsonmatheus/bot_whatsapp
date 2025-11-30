@@ -51,7 +51,7 @@ for i, row in enumerate(customers_page.iter_rows(min_row=2), start=0):
             f"https://web.whatsapp.com/send?phone={phone_number}&text={quote(message_to_send)}"
         )
         webbrowser.open(link_mensagem_whatsapp)
-        sleep(60)
+        sleep(180)
         trieds = 2
         error = None
         seta = None
